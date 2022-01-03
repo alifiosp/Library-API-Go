@@ -11,23 +11,38 @@ import (
 func main() {
 	r := gin.Default()
 
-	db := models.SetupModelsbooks()
-
-	r.Use(func(c *gin.Context) {
-		c.Set("db", db)
-		c.Next()
-	})
-
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"Data": "Home Page",
 		})
 	})
 
-	r.GET("/Books", controllers.Show)
-	r.POST("/Books", controllers.AddBooks)
-	r.PUT("/Books/:Code", controllers.ChangeBooks)
-	r.DELETE("/Books/:Code", controllers.DeleteBooks)
+	v1 := r.Group("/Library")
+	v2 := r.Group("/LibraryUsers")
+
+	db := models.SetupModelsBooks()
+
+	v1.Use(func(c *gin.Context) {
+		c.Set("db", db)
+		c.Next()
+	})
+
+	v1.GET("/Books", controllers.Show)
+	v1.POST("/Books", controllers.AddBooks)
+	v1.PUT("/Books/:Code", controllers.ChangeBooks)
+	v1.DELETE("/Books/:Code", controllers.DeleteBooks)
+
+	db1 := models.SetupModelsUsers()
+
+	v2.Use(func(c *gin.Context) {
+		c.Set("db1", db1)
+		c.Next()
+	})
+
+	v2.GET("/Users", controllers.ShowUsers)
+	v2.POST("/Users", controllers.AddUsers)
+	v2.PUT("/Users/:Id", controllers.ChangeUsers)
+	v2.DELETE("/Users/:Id", controllers.DeleteUsers)
 
 	r.Run()
 }
