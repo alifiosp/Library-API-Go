@@ -6,6 +6,7 @@ type Books struct {
 	Author          string `json:"Author"`
 	Genre           string `json:"Genre"`
 	PublicationYear string `json:"Publication Year"`
+	Placement       string `json:"Placement"`
 }
 
 type Users struct {

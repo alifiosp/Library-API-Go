@@ -14,6 +14,7 @@ type BooksInput struct {
 	Author          string `json:"Author" binding:"required"`
 	Genre           string `json:"Genre" binding:"required"`
 	PublicationYear string `json:"Publication Year" binding:"required,number,gte=4"`
+	Placement       string `json:"Placement" binding:"required"`
 }
 
 //view data[GET]
@@ -49,6 +50,7 @@ func AddBooks(c *gin.Context) {
 		Author:          dataInput.Author,
 		Genre:           dataInput.Genre,
 		PublicationYear: dataInput.PublicationYear,
+		Placement:       dataInput.Placement,
 	}
 
 	//create data
